@@ -1,0 +1,30 @@
+{
+  "name": "clase-5",
+  "version": "1.0.0",
+  "main": "app.js",
+  "type": "module",
+  "scripts": {
+    "start:sql": "node --watch server-with-sql.js",
+    "start:local": "node --watch server-with-local.js",
+    "dev:1": "node --watch app.js",
+    "dev:2": "node app.js",
+    "test": "semistandard app.js",
+    "testf": "semistandard app.js --fix"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "eslintConfig": {
+    "extends": "semistandard"
+  },
+  "dependencies": {
+    "cors": "2.8.5",
+    "express": "4.21.2",
+    "mysql2": "3.13.0",
+    "zod": "3.24.2"
+  },
+  "description": "",
+  "devDependencies": {
+    "semistandard": "^17.0.0"
+  }
+}

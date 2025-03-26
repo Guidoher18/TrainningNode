@@ -1,0 +1,21 @@
+{
+  "name": "clase-3",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "dev:1": "node --watch app.js",
+    "test": "semistandard app.js",
+    "testf": "semistandard app.js --fix"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "eslintConfig": {
+    "extends": "semistandard"
+  },
+  "dependencies": {
+    "express": "4.21.2",
+    "zod": "3.24.2"
+  }
+}
