@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio de Sesión</title>
+    <style>
+        form {
+            margin: 30px;
+            border: 1px solid green;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            width: 25%;
+        }
+
+        form>div,
+        #userLogged>div {
+            margin: 10px 0;
+            display: flex;
+            justify-content: center;
+        }
+
+        form>h1,
+        #userLogged>h1 {
+            text-align: center;
+            margin-top: 22px;
+        }
+
+        form>div>button {
+            margin-top: 10px;
+        }
+
+        #register,
+        #logout {
+            margin-bottom: 22px;
+        }
+
+        .hide {
+            display: none !important;
+        }
+
+        #userLogged {
+            border: 1px solid green;
+            border-radius: 10px;
+            width: 25%;
+            margin: 30px;
+            flex-direction: column;
+        }
+
+        #logout {
+            width: 50%;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="userLogged" class="<%= user === null ? 'hide' : '' %>">
+        <h1>¡Bienvenido!</h1>
+        <div>
+            <h3>
+                <b>
+                    <%= user===null ? 'USUARIO' : user.user %>
+                </b>
+            </h3>
+        </div>
+        <div>
+            <button id="logout">Cerrar Sesión</button>
+        </div>
+    </div>
+    <form id="form" class="<%= user === null ? '' : 'hide' %>">
+        <h1>Inicio de Sesión</h1>
+        <div>
+            <label for="user">Usuario&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+            <input type="text" id="user" name="user" autocomplete="username" required>
+        </div>
+        <div>
+            <label for="password">Contraseña&nbsp;</label>
+            <input type="password" id="password" name="password" autocomplete="current-password">
+        </div>
+        <div>
+            <button type="submit" id="login">Iniciar Sesión</button>
+        </div>
+        <div>
+            <button type="submit" id="register">Registrar</button>
+        </div>
+    </form>
+
+    <script>
+        const btnLogin = document.getElementById('login');
+        const btnRegister = document.getElementById('register');
+        const btnLogout = document.getElementById('logout');
+
+        const user = document.getElementById('user');
+        const password = document.getElementById('password');
+
+        const ingresar = (isNewUser = false) => {
+            const PORT = window.location.port;
+            const ep = isNewUser ? 'register' : 'login';
+
+            fetch(`http://localhost:${PORT}/${ep}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    user: user.value,
+                    password: password.value
+                })
+            })
+                .then(res => {
+                    const response = res.json();
+
+                    if (res.status === 200) {
+                        toggleClass('userLogged', 'hide');
+                        toggleClass('form', 'hide');
+                        const h3 = document.querySelector('#userLogged h3');
+                        h3.innerHTML = `${user.value}`;
+                    } else {
+
+                    };
+
+                    return response;
+                })
+                .then(res => console.log(res));
+        };
+
+        const toggleClass = (id, _class) => {
+            const elemento = document.getElementById(id);
+            if (elemento.classList.contains(_class)) elemento.classList.remove(_class);
+            else elemento.classList.add(_class);
+        };
+
+        // Iniciar Sesión
+        btnLogin.addEventListener('click', (e) => {
+            e.preventDefault();
+            ingresar();
+        });
+
+        // Registrar
+        btnRegister.addEventListener('click', (e) => {
+            e.preventDefault();
+            ingresar(true);
+        });
+
+        // Cerrar Sesión
+        btnLogout.addEventListener('click', () => {
+            const PORT = window.location.port;
+
+            fetch(`http://localhost:${PORT}/logout`, {
+                method: 'POST'
+            }).finally(() => {
+                window.location.reload();
+            });
+        });
+    </script>
+</body>
+
+</html>

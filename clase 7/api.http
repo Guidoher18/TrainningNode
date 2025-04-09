@@ -1,0 +1,36 @@
+GET http://localhost:3009/ HTTP/1.1
+
+###
+
+POST http://localhost:3009/login
+Content-Type: application/json
+
+{
+  "user": "NuevoUsuarioHash",
+  "password": "123"
+}
+
+###
+
+POST http://localhost:3009/register
+Content-Type: application/json
+
+{
+  "user": "NuevoUsuarioHash",
+  "password": "123"
+}
+
+###
+
+POST http://localhost:3009/logout
+
+###
+
+POST http://localhost:3009/protected
+Content-Type: application/json
+
+{
+  "token": "example"
+}
+
+###
